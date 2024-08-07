@@ -142,7 +142,7 @@ Download Autoware Universe Source Code:
     source /opt/ros/humble/setup.bash
     source ~/autoware_ws/install/setup.bash
 
-    Start Simulator (you need to install the map before)
+    Start Simulator (you need to install the map before see the installtion tutorial)
     
     ros2 launch autoware_launch planning_simulator.launch.xml map_path:=$HOME/autoware_map/sample-map-planning vehicle_model:=sample_vehicle sensor_model:=sample_sensor_kit
 
