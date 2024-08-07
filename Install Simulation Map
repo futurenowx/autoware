@@ -1,0 +1,28 @@
+
+1. create autoware map folder in your Home directory
+
+	cd $home
+	mkdir autoware_map
+
+2. download a map (official autoware example map) 
+
+	https://docs.google.com/uc?export=download&id=1499_nsbUbIeturZaDj7jhUownh5fvXHd
+
+  it will be stored in your Downloads folder with the name sample-map-planning.zip
+	
+3. unzip it to your autoware_map folder
+
+   cd Downloads
+   unzip sample-map-planning.zip -d ~/autoware_map
+
+   you should have now 4 files in an underfolder called sample-map-planing
+
+   lanelet2_map.osm
+   map_config.yaml
+   map_projector_info.yaml
+   pointcloud_map.pcd
+	
+4. run Simulator
+
+  source ~/autoware_ws/install/setup.bash
+	ros2 launch autoware_launch planning_simulator.launch.xml map_path:=$HOME/autoware_map/sample-map-planning vehicle_model:=sample_vehicle sensor_model:=sample_sensor_kit
