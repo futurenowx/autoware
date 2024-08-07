@@ -1,0 +1,149 @@
+How to install Autoware Universe on NVIDIA Jetson Orin AGY with Jetpack 6.0 and ROS2 Humble
+
+Installing Autoware Universe on an NVIDIA Jetson AGX Orin with JetPack 6.0 involves several steps, 
+including setting up your development environment, installing necessary dependencies, install OpenCV
+4.1.0 from source again (the Jetpack Version is not complete, can change with next updates) and 
+building Autoware Universe. 
+
+Below are the general steps to follow always on your own risk:
+
+1. Prerequisites
+
+1a. Install NVIDIA Jetson AGX Orin with JetPack 6.0: 
+
+Ensure your Jetson AGX Orin is flashed with JetPack 6.0, 
+which includes Ubuntu 20.04 and necessary CUDA libraries and create OpenCV4.1.0 from Source
+
+Development Environment Setup:
+
+1b. Update and upgrade your system:
+
+	sudo apt update
+	sudo apt upgrade
+
+1c. Install OpenCV 4.1.0 wit Ximgproc from source
+
+Jetpack 6.0 comes with OpenCV 4.1.0 but without ximgproc which is needed for Autoware Universe Setup, 
+otherwise colcon build will crash at step 225. 
+
+a. Prerequisites
+
+ 	sudo apt-get update
+	sudo apt-get install build-essential cmake git pkg-config
+	sudo apt-get install libjpeg-dev libtiff-dev libpng-dev
+	sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
+	sudo apt-get install libv4l-dev v4l-utils
+	sudo apt-get install libxvidcore-dev libx264-dev
+	sudo apt-get install libgtk-3-dev
+	sudo apt-get install libatlas-base-dev gfortran
+	sudo apt-get install python3-dev python3-numpy
+	
+b. Clone the OpenCV and OpenCV Contrib Repositories
+
+
+	mkdir ~/opencv_build
+	cd ~/opencv_build
+	git clone https://github.com/opencv/opencv.git
+	git clone https://github.com/opencv/opencv_contrib.git
+
+c. Checkout the Appropriate Version, to make sure to checkout the version of OpenCV 
+   that matches the one in your JetPack (4.1 in this case):
+
+	cd opencv
+	git checkout 4.1.0
+	cd ../opencv_contrib
+	git checkout 4.1.0
+
+d. Build OpenCV with Contrib Modules
+
+	cd ~/opencv_build/opencv
+	mkdir build
+	cd build
+	cmake -D CMAKE_BUILD_TYPE=Release \
+	      -D CMAKE_INSTALL_PREFIX=/usr/local \
+	      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
+	      -D ENABLE_NEON=ON \
+	      -D WITH_CUDA=ON \
+	      -D OPENCV_DNN_CUDA=ON \
+	      -D WITH_CUDNN=ON \
+	      -D WITH_V4L=ON \
+	      -D WITH_QT=OFF \
+	      -D WITH_OPENGL=ON ..
+	make -j$(nproc) if it crashes use make -j4
+	sudo make install
+	sudo ldconfig
+
+e. Verify the Installation
+
+After building, you can verify that ximgproc is available:
+
+	python
+	import cv2
+	print(cv2.ximgproc)
+
+2. Install Autoware Required Dependencies:
+
+Autoware Universe requires several dependencies. 
+Install them using the following commands:
+
+  sudo apt install -y build-essential git python3-colcon-common-extensions python3-vcstool python3-rosdep wget
+    	
+    	
+4. ROS 2 Installation:
+
+To install ROS2 Humble or higher follow the official documentation like:
+
+https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html
+
+
+5. Install Autoware Universe
+
+Create a Workspace:
+
+	mkdir -p ~/autoware_ws/src
+	cd ~/autoware_ws
+
+Download Autoware Universe Source Code:
+
+	git clone -b humble https://github.com/autowarefoundation/autoware.git src/autoware
+	cd src/autoware
+	git checkout main
+
+
+7. Install Additional Dependencies:
+
+	vcs import < autoware.repos
+
+	cd ~/autoware_ws
+	
+	rosdep install --from-paths src --ignore-src -r -y
+	
+
+8. Build Autoware Universe:
+
+	colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+	colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+9. Source Autoware Environment:
+   After the build is complete, source the setup script to overlay the Autoware workspace 
+   on top of your ROS 2 environment:
+
+	 echo "source ~/autoware_ws/install/setup.bash" >> ~/.bashrc
+	 source ~/.bashrc
+	 source install/setup.bash
+	  
+    
+
+9.Running Autoware Universe
+
+  Launch the Autoware System:
+  You can start various nodes and components of Autoware Universe using launch files. 
+  
+  For example, to start the core components:
+
+    
+    source /opt/ros/humble/setup.bash
+    source ~/autoware_ws/install/setup.bash
+
+    Start Simulator (you need to install the map before)
+	  ros2 launch autoware_launch planning_simulator.launch.xml map_path:=$HOME/autoware_map/sample-map-planning vehicle_model:=sample_vehicle sensor_model:=sample_sensor_kit
