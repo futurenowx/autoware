@@ -132,8 +132,6 @@ Download Autoware Universe Source Code:
 	 source ~/.bashrc
 	 source install/setup.bash
 	  
-    
-
 9.Running Autoware Universe
 
   Launch the Autoware System:
@@ -141,9 +139,9 @@ Download Autoware Universe Source Code:
   
   For example, to start the core components:
 
-    
     source /opt/ros/humble/setup.bash
     source ~/autoware_ws/install/setup.bash
 
     Start Simulator (you need to install the map before)
-	  ros2 launch autoware_launch planning_simulator.launch.xml map_path:=$HOME/autoware_map/sample-map-planning vehicle_model:=sample_vehicle sensor_model:=sample_sensor_kit
+    
+    ros2 launch autoware_launch planning_simulator.launch.xml map_path:=$HOME/autoware_map/sample-map-planning vehicle_model:=sample_vehicle sensor_model:=sample_sensor_kit
