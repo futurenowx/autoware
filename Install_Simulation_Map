@@ -1,12 +1,12 @@
 
 1. create autoware map folder in your Home directory
 
-	cd $home
-	mkdir autoware_map
+    cd $home
+    mkdir autoware_map
 
 2. download a map (official autoware example map) 
 
-	https://docs.google.com/uc?export=download&id=1499_nsbUbIeturZaDj7jhUownh5fvXHd
+   https://docs.google.com/uc?export=download&id=1499_nsbUbIeturZaDj7jhUownh5fvXHd
 
   it will be stored in your Downloads folder with the name sample-map-planning.zip
 	
