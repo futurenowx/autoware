@@ -13,7 +13,7 @@ Below are the general steps to follow always on your own risk:
 1a. Install NVIDIA Jetson AGX Orin with JetPack 6.0/6.1: 
 
 Ensure your Jetson AGX Orin is flashed with JetPack 6.0/6.1 
-which includes Ubuntu 22.04 and necessary CUDA libraries and create OpenCV 4.8.1 from Source
+which includes Ubuntu 22.04 and necessary CUDA libraries and create OpenCV 4.8.0 from Source
 
 Development Environment Setup:
 
