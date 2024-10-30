@@ -1,18 +1,19 @@
-How to install Autoware Universe on NVIDIA Jetson Orin AGY with Jetpack 6.0 and ROS2 Humble
+How to install Autoware Universe on NVIDIA Jetson Orin AGY with Jetpack 6.0/6.1 and ROS2 Humble
 
 Installing Autoware Universe on an NVIDIA Jetson AGX Orin with JetPack 6.0 involves several steps, 
-including setting up your development environment, installing necessary dependencies, install OpenCV
-4.1.0 from source again (the Jetpack Version is not complete, can change with next updates) and 
-building Autoware Universe. 
+including setting up your development environment, installing necessary dependencies, install OpenCV 
+4.8.1 from source again (the Jetpack Version is not complete, missing Ximgproc which Autoware needs
+to get installed on Jetpack 6.0 may this can be changed with next updates) and building Autoware 
+Universe. 
 
 Below are the general steps to follow always on your own risk:
 
 1. Prerequisites
 
-1a. Install NVIDIA Jetson AGX Orin with JetPack 6.0: 
+1a. Install NVIDIA Jetson AGX Orin with JetPack 6.0/6.1: 
 
-Ensure your Jetson AGX Orin is flashed with JetPack 6.0, 
-which includes Ubuntu 20.04 and necessary CUDA libraries and create OpenCV4.1.0 from Source
+Ensure your Jetson AGX Orin is flashed with JetPack 6.0/6.1 
+which includes Ubuntu 22.04 and necessary CUDA libraries and create OpenCV 4.8.1 from Source
 
 Development Environment Setup:
 
@@ -21,9 +22,15 @@ Development Environment Setup:
 	sudo apt update
 	sudo apt upgrade
 
-1c. Install OpenCV 4.1.0 wit Ximgproc from source
+1c. Install OpenCV 4.8.0 wit Ximgproc from source
 
-Jetpack 6.0 comes with OpenCV 4.1.0 but without ximgproc which is needed for Autoware Universe Setup, 
+a. First check if Ximgproc is installed
+
+Python3
+import cv2
+print(cv2.ximgproc)
+
+Jetpack 6.0/6.1 comes with OpenCV 4.8.0 but without ximgproc which is needed for Autoware Universe Setup, 
 otherwise colcon build will crash at step 225. 
 
 a. Prerequisites
@@ -47,12 +54,12 @@ b. Clone the OpenCV and OpenCV Contrib Repositories
 	git clone https://github.com/opencv/opencv_contrib.git
 
 c. Checkout the Appropriate Version, to make sure to checkout the version of OpenCV 
-   that matches the one in your JetPack (4.1 in this case):
+   that matches the one in your JetPack (4.8.0 in this case):
 
 	cd opencv
-	git checkout 4.1.0
+	git checkout 4.8.0
 	cd ../opencv_contrib
-	git checkout 4.1.0
+	git checkout 4.8.0
 
 d. Build OpenCV with Contrib Modules
 
@@ -93,7 +100,8 @@ Install them using the following commands:
 
 To install ROS2 Humble or higher follow the official documentation like:
 
-https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html
+https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html or check non 
+source in our Github.
 
 
 5. Install Autoware Universe
