@@ -1,3 +1,8 @@
+How to install ROS2 Humble NON Source on NVIDIA Jetson Orin AGY with Jetpack 6.0/6.1 
+
+Installing ROS2 Humble NON Source on an NVIDIA Jetson AGX Orin with JetPack 6.0/6.1 involves several steps.
+Below are the general steps to follow always on your own risk:
+
 1. Prerequisites
 
 $ sudo apt update && sudo apt install -y software-properties-common
