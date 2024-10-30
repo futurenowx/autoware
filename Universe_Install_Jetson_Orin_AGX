@@ -1,9 +1,9 @@
 How to install Autoware Universe on NVIDIA Jetson Orin AGY with Jetpack 6.0/6.1 and ROS2 Humble
 
-Installing Autoware Universe on an NVIDIA Jetson AGX Orin with JetPack 6.0 involves several steps, 
+Installing Autoware Universe on an NVIDIA Jetson AGX Orin with JetPack 6.0/6.1 involves several steps, 
 including setting up your development environment, installing necessary dependencies, install OpenCV 
 4.8.1 from source again (the Jetpack Version is not complete, missing Ximgproc which Autoware needs
-to get installed on Jetpack 6.0 may this can be changed with next updates) and building Autoware 
+to get installed on Jetpack 6.0/6.1 may this can be changed with next updates) and building Autoware 
 Universe. 
 
 Below are the general steps to follow always on your own risk:
