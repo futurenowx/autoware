@@ -101,7 +101,7 @@ Install them using the following commands:
 To install ROS2 Humble or higher follow the official documentation like:
 
 https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html or check non 
-source in our Github.
+source in our Github (recommended).
 
 
 5. Install Autoware Universe
