@@ -25,6 +25,7 @@
 4. run Simulator
 
   source ~/autoware_ws/install/setup.bash
+  export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgom
   ros2 launch autoware_launch planning_simulator.launch.xml map_path:=$HOME/autoware_map/sample-map-planning vehicle_model:=sample_vehicle sensor_model:=sample_sensor_kit
 
 5. Official Autoware Resources
