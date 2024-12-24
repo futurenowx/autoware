@@ -1,19 +1,25 @@
-How to install Autoware Universe on NVIDIA Jetson Orin AGY with Jetpack 6.0/6.1 and ROS2 Humble
+How to install Autoware Universe on NVIDIA Jetson Orin AGY with Jetpack 6.0 and ROS2 Humble
+(Attention under Jetpack 6.1 the installation is not possible till today, because, Jetpack
+6.1 comes with TensorRT 10.3, Autoware Universe supports only TensorRT 8.3x 
 
-Installing Autoware Universe on an NVIDIA Jetson AGX Orin with JetPack 6.0/6.1 involves several steps, 
+Installing Autoware Universe on an NVIDIA Jetson AGX Orin with JetPack 6.0 involves several steps, 
 including setting up your development environment, installing necessary dependencies, install OpenCV 
-4.8.1 from source again (the Jetpack Version is not complete, missing Ximgproc which Autoware needs
-to get installed on Jetpack 6.0/6.1 may this can be changed with next updates) and building Autoware 
+4.10.0 from source again (the Jetpack Version is not complete, missing Ximgproc which Autoware needs
+to get installed on Jetpack 6.0 may this can be changed with next updates) and building Autoware 
 Universe. 
+
+Make sure that you have installed TensorRT 8.3x not higher
+
+dpkg -l | grep nvinfer
 
 Below are the general steps to follow always on your own risk:
 
 1. Prerequisites
 
-1a. Install NVIDIA Jetson AGX Orin with JetPack 6.0/6.1: 
+1a. Install NVIDIA Jetson AGX Orin with JetPack 6.0: 
 
-Ensure your Jetson AGX Orin is flashed with JetPack 6.0/6.1 
-which includes Ubuntu 22.04 and necessary CUDA libraries and create OpenCV 4.8.0 from Source
+Ensure your Jetson AGX Orin is flashed with JetPack 6.0
+which includes Ubuntu 22.04 and necessary CUDA libraries and create OpenCV 4.10.0 from Source
 
 Development Environment Setup:
 
@@ -22,7 +28,7 @@ Development Environment Setup:
 	sudo apt update
 	sudo apt upgrade
 
-1c. Install OpenCV 4.8.0 wit Ximgproc from source
+1c. Install OpenCV 4.10.0 wit Ximgproc from source
 
 a. First check if Ximgproc is installed
 
@@ -30,7 +36,7 @@ Python3
 import cv2
 print(cv2.ximgproc)
 
-Jetpack 6.0/6.1 comes with OpenCV 4.8.0 but without ximgproc which is needed for Autoware Universe Setup, 
+Jetpack 6.0 comes with OpenCV 4.10.0 but without ximgproc which is needed for Autoware Universe Setup, 
 otherwise colcon build will crash at step 225. 
 
 a. Prerequisites
@@ -57,9 +63,9 @@ c. Checkout the Appropriate Version, to make sure to checkout the version of Ope
    that matches the one in your JetPack (4.8.0 in this case):
 
 	cd opencv
-	git checkout 4.8.0
+	git checkout 4.10.0
 	cd ../opencv_contrib
-	git checkout 4.8.0
+	git checkout 4.10.0
 
 d. Build OpenCV with Contrib Modules
 
@@ -87,24 +93,22 @@ After building, you can verify that ximgproc is available:
 	python
 	import cv2
 	print(cv2.ximgproc)
-
-2. Install Autoware Required Dependencies:
-
-Autoware Universe requires several dependencies. 
-Install them using the following commands:
-
-  sudo apt install -y build-essential git python3-colcon-common-extensions python3-vcstool python3-rosdep wget
     	
-    	
-4. ROS 2 Installation:
+2. ROS 2 Installation (Only if you did not installed ROS2 Humble):
 
 To install ROS2 Humble or higher follow the official documentation like:
 
 https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html or check non 
 source in our ROS2 Github (recommended).
 
+3. PacMod Msg
 
-5. Install Autoware Universe
+sudo apt install apt-transport-https
+sudo sh -c 'echo "deb [trusted=yes] https://s3.amazonaws.com/autonomoustuff-repo/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/autonomoustuff-public.list'
+sudo apt update
+sudo apt install ros-humble-pacmod3-msgs  
+
+4. Install Autoware Universe
 
 Create a Workspace:
 
@@ -118,7 +122,7 @@ Download Autoware Universe Source Code:
 	git checkout main
 
 
-7. Install Additional Dependencies:
+5. Install Additional Dependencies:
 
 	vcs import < autoware.repos
 
@@ -127,12 +131,12 @@ Download Autoware Universe Source Code:
 	rosdep install --from-paths src --ignore-src -r -y
 	
 
-8. Build Autoware Universe:
+6. Build Autoware Universe:
 
 	colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 	colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-9. Source Autoware Environment:
+7. Source Autoware Environment:
    After the build is complete, source the setup script to overlay the Autoware workspace 
    on top of your ROS 2 environment:
 
@@ -140,7 +144,7 @@ Download Autoware Universe Source Code:
 	 source ~/.bashrc
 	 source install/setup.bash
 	  
-9.Running Autoware Universe
+8.Running Autoware Universe
 
   Launch the Autoware System:
   You can start various nodes and components of Autoware Universe using launch files. 
