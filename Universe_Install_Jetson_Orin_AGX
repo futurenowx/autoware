@@ -67,6 +67,8 @@ c. Checkout the Appropriate Version, to make sure to checkout the version of Ope
 	cd ../opencv_contrib
 	git checkout 4.10.0
 
+Use the latest OpenCV Version
+
 d. Build OpenCV with Contrib Modules
 
 	cd ~/opencv_build/opencv
