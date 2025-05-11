@@ -96,6 +96,40 @@ export CYCLONEDDS_URI=file:///absolute/path/to/cyclonedds.xml
 # Replace `/absolute/path/to/cyclonedds.xml` with the actual path to the file.
 # Example: export CYCLONEDDS_URI=file:///home/user/cyclonedds.xml
 
+Attention!!!:
+if you start the planer and you get an error that RMW_IMPLEMENTATION=rmw_cyclonedds_cpp 
+is not implemented, check the Installation in Autoware/RMW_IMPLEMENTATION
+
 You can refer to Eclipse Cyclone DDS: Run-time configuration documentation for more details.
 
 $ sudo ip link set lo multicast on
+
+On startup with a service (permanent solution)#
+
+$ sudo nano /etc/systemd/system/multicast-lo.service
+
+Paste the following into the file:
+
+[Unit]
+Description=Enable Multicast on Loopback
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/ip link set lo multicast on
+
+[Install]
+WantedBy=multi-user.target
+
+save all: Ctrl+X, the Y and Enter
+
+# Make it recognized
+sudo systemctl daemon-reload
+
+# Make it run on startup
+sudo systemctl enable multicast-lo.service
+
+# Start it now
+sudo systemctl start multicast-lo.service
+
+Close your Terminal and start Autoware in a new one, also after changing /.bashrc
+
