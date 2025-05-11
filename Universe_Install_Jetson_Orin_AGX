@@ -138,7 +138,7 @@ Download Autoware Universe Source Code:
 
 6. Build Autoware Universe:
 
-	colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+	colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release or 
 	colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 7. Source Autoware Environment:
