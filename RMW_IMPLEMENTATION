@@ -1,0 +1,48 @@
+1. If you installed ROS Humble as a Source Installation
+
+a. Go to your ROS Humble Source installatiion folder
+
+for exmaple
+
+$ cd ~/ros2_humble/src
+
+then 
+
+# Clone the required repositories
+$ git clone https://github.com/ros2/rmw_cyclonedds.git
+$ git clone https://github.com/ros2/rmw.git
+$ git clone https://github.com/eclipse-cyclonedds/cyclonedds.git
+
+$ cd ~/ros2_humble
+$ rosdep update
+$ rosdep install --from-paths src --ignore-src -r -y
+
+$ colcon build --symlink-install
+$ source install/setup.bash
+
+2. If you installed ROS Humble as a Non Source Installation
+
+$ sudo apt update && sudo apt install -y curl gnupg lsb-release
+
+# Add the ROS 2 GPG key
+$ sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo tee /etc/apt/trusted.gpg.d/ros.asc > /dev/null
+
+# Add the ROS 2 apt repository
+$ echo "deb [arch=arm64 signed-by=/etc/apt/trusted.gpg.d/ros.asc] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/ros2-latest.list
+
+# Update and install
+$ sudo apt update
+$ sudo apt install ros-humble-rmw-cyclonedds-cpp
+
+$ source /opt/ros/humble/setup.bash
+
+
+
+
+3. Check Installation
+
+env | grep RMW
+ros2 doctor --report | grep RMW
+
+You should see rmw_cyclonedds_cpp listed.
+
